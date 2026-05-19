@@ -1,0 +1,150 @@
+---
+title: "Análisis de intendentes electos en Paraguay, 2021"
+author: "Samuel Recalde"
+date: "2026-05-19"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+# Introducción
+
+Este trabajo analiza la base de intendentes municipales electos en Paraguay para el año 2021.
+```{r setup, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(knitr)
+library(scales)
+```
+
+```{r carga-datos}
+load("C:/Users/HP/Downloads/UID_Metodos_Cuantitativos/REPOSITORIOS/metodos_cuantitativos/full_intendentes_margen_2001_2021.RData")
+
+inten_2021 <- full_intendentes_margen_2001_2021 %>% 
+  filter(ano == 2021)
+
+head(inten_2021)
+```
+
+# Pregunta 1
+
+¿Qué porcentaje de los intendentes son de sexo femenino?
+
+```{r}
+inten_2021 %>% 
+  filter(!is.na(sexo)) %>% 
+  count(sexo) %>% 
+  mutate(
+    porcentaje = n / sum(n) * 100
+  )
+```
+
+```{r}
+inten_2021 %>% 
+  filter(!is.na(sexo)) %>% 
+  count(sexo) %>% 
+  ggplot(aes(x = sexo, y = n, fill = sexo)) +
+  geom_col() +
+  labs(
+    title = "Cantidad de intendentes por sexo",
+    x = "Sexo",
+    y = "Cantidad"
+  ) +
+  theme_minimal()
+```
+
+#Se observa una amplia predominancia masculina entre los intendentes electos en Paraguay en 2021. Las mujeres representan aproximadamente el 12,9% del total de intendentes con sexo identificado.
+
+# Pregunta 2
+
+¿Cuál es la edad promedio de los intendentes?
+
+```{r}
+inten_2021 %>% 
+  summarise(
+    edad_promedio = mean(edad, na.rm = TRUE)
+  )
+```
+
+```{r}
+inten_2021 %>% 
+  filter(!is.na(edad)) %>% 
+  ggplot(aes(x = edad)) +
+  geom_histogram(bins = 15, fill = "steelblue") +
+  labs(
+    title = "Distribución de edad de los intendentes",
+    x = "Edad",
+    y = "Cantidad"
+  ) +
+  theme_minimal()
+```
+
+#La edad promedio de los intendentes electos en Paraguay en 2021 fue de aproximadamente 45,6 años.
+
+# Pregunta 3
+
+De los intendentes colorados, ¿cuál es el promedio de edad?
+
+```{r}
+inten_2021 %>% 
+  filter(siglas_lista == "ANR") %>% 
+  summarise(
+    edad_promedio_colorados = mean(edad, na.rm = TRUE)
+  )
+```
+
+```{r}
+inten_2021 %>% 
+  filter(siglas_lista == "ANR") %>% 
+  filter(!is.na(edad)) %>% 
+  ggplot(aes(x = edad)) +
+  geom_histogram(bins = 15, fill = "firebrick") +
+  labs(
+    title = "Distribución de edad de intendentes colorados",
+    x = "Edad",
+    y = "Cantidad"
+  ) +
+  theme_minimal()
+```
+
+#La edad promedio de los intendentes colorados electos en 2021 fue de aproximadamente 45,3 años.
+
+# Pregunta 4
+
+¿Cuál es el departamento con mayor porcentaje de intendentes no colorados?
+
+```{r}
+porcentaje_no_colorados <- inten_2021 %>% 
+  group_by(depdes) %>% 
+  summarise(
+    total_intendentes = n(),
+    no_colorados = sum(siglas_lista != "ANR", na.rm = TRUE),
+    porcentaje_no_colorados = (no_colorados / total_intendentes) * 100
+  ) %>% 
+  arrange(desc(porcentaje_no_colorados))
+
+porcentaje_no_colorados
+```
+
+```{r}
+porcentaje_no_colorados %>% 
+  ggplot(aes(x = reorder(depdes, porcentaje_no_colorados),
+             y = porcentaje_no_colorados)) +
+  geom_col(fill = "darkgreen") +
+  coord_flip() +
+  labs(
+    title = "Porcentaje de intendentes no colorados por departamento",
+    x = "Departamento",
+    y = "Porcentaje"
+  ) +
+  theme_minimal()
+```
+
+#El departamento con mayor porcentaje de intendentes no colorados fue Asunción, con aproximadamente 66,7%, seguido por Central y Alto Paraná.
+
+# Conclusión
+
+En este trabajo se analizaron datos de los intendentes electos en Paraguay en el año 2021. 
+
+Los resultados muestran una amplia predominancia masculina entre los intendentes, además de una edad promedio cercana a los 45 años. También se observaron diferencias entre departamentos en cuanto a la presencia de intendentes no colorados, destacándose Asunción con el porcentaje más alto.
+
+El uso de R y R Markdown permitió realizar un análisis descriptivo y presentar los resultados mediante tablas y gráficos de manera clara y ordenada.
