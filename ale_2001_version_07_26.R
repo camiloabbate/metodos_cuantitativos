@@ -3,15 +3,6 @@
 
 rm(list = ls())
 
-<<<<<<< HEAD
-load("full_intendentes_margen_2001_2021.RData")
-=======
-library(pacman)
->>>>>>> 1a99e64c40e9b0ec660819748d351b35c566cf69
-
-p_load(tidyverse,tidylog)
-
-
 load("full_intendentes_margen_2001_2021.RData")
 
 inten_2001 <- subset(
@@ -36,7 +27,10 @@ porcentaje_mujeres <- data.frame(
 cat("\n1. Porcentaje de intendentes mujeres:\n")
 porcentaje_mujeres
 
-inten_2001 %>% group_by(sexo) %>% count()
+cantidad_por_sexo <- as.data.frame(table(inten_2001$sexo))
+names(cantidad_por_sexo) <- c("sexo", "cantidad")
+
+cantidad_por_sexo
 
 
 # cual es la edad promedio de los intendentes
@@ -97,7 +91,6 @@ departamento_mayor_porcentaje_no_colorados <-
 cat("\n4. Departamento con mayor porcentaje de intendentes no colorados:\n")
 departamento_mayor_porcentaje_no_colorados
 
-<<<<<<< HEAD
 # ranking de porcentajes de candidatos no colorados en 2001
 
 candidatos_no_colorados_2001 <- subset(
@@ -147,12 +140,70 @@ top_20_candidatos_no_colorados
 
 # Para ver el ranking completo en RStudio, ejecuta:
 # View(ranking_porcentaje_candidatos_no_colorados)
-=======
+
+# Top 5 de intendentes que ganaron por los mayores margenes
+# margen_de_victoria = porcentaje del primero - porcentaje del segundo
+ranking_mayores_margenes <- inten_2001[
+  order(-inten_2001$margen_de_victoria),
+  c(
+    "depdes",
+    "disdes",
+    "nombre_completo",
+    "siglas_lista",
+    "porcentaje",
+    "second_porcentaje",
+    "margen_de_victoria"
+  )
+]
+
+ranking_mayores_margenes$porcentaje <-
+  ranking_mayores_margenes$porcentaje * 100
+
+ranking_mayores_margenes$second_porcentaje <-
+  ranking_mayores_margenes$second_porcentaje * 100
+
+ranking_mayores_margenes$margen_de_victoria <-
+  ranking_mayores_margenes$margen_de_victoria * 100
+
+top_5_mayores_margenes <- head(ranking_mayores_margenes, 5)
+
+cat("\n6. Top 5 de intendentes que ganaron por los mayores margenes:\n")
+top_5_mayores_margenes
+
+# Top 5 de las elecciones mas competitivas
+# Son las elecciones con menor margen entre el primero y el segundo
+ranking_elecciones_mas_competitivas <- inten_2001[
+  order(inten_2001$margen_de_victoria),
+  c(
+    "depdes",
+    "disdes",
+    "nombre_completo",
+    "siglas_lista",
+    "porcentaje",
+    "second_porcentaje",
+    "margen_de_victoria"
+  )
+]
+
+ranking_elecciones_mas_competitivas$porcentaje <-
+  ranking_elecciones_mas_competitivas$porcentaje * 100
+
+ranking_elecciones_mas_competitivas$second_porcentaje <-
+  ranking_elecciones_mas_competitivas$second_porcentaje * 100
+
+ranking_elecciones_mas_competitivas$margen_de_victoria <-
+  ranking_elecciones_mas_competitivas$margen_de_victoria * 100
+
+top_5_elecciones_mas_competitivas <- head(
+  ranking_elecciones_mas_competitivas,
+  5
+)
+
+cat("\n7. Top 5 de las elecciones mas competitivas:\n")
+top_5_elecciones_mas_competitivas
 
 # AVERIGUAR, PORQUE EN BOQUERON SOLO APARECE 1 DISTRITO!
 
-
->>>>>>> 1a99e64c40e9b0ec660819748d351b35c566cf69
 
 # Sugerencias de preguntas adicionales para 2001:
 # - Cual fue el partido/lista con mayor cantidad de intendentes electos?
