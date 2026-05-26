@@ -17,8 +17,10 @@ names(inten_2015)
 
 
 # que porcentaje de los intendentes son de sexo femenino
-inte_2015
-# El porcentaje de intendentes de sexo femenino en 2015 fue de 10.3%.
+inten_2015 %>% 
+  summarise(porcentaje_mujeres = mean(sexo == "F", na.rm = TRUE) * 100)
+
+# El porcentaje de intendentes de sexo femenino en 2015 fue de 10.4%.
 
 
 # cual es la edad promedio de los intendentes
@@ -32,7 +34,7 @@ inten_2015 %>%
 inten_2015 %>% 
   filter(siglas_lista == "ANR") %>% 
   summarise(promedio_colorados = mean(edad, na.rm = TRUE))
-# La edad promedio de los intendentes colorados en 2015 fue de 44.1 años.
+# La edad promedio de los intendentes colorados en 2015 fue de 43.8 años.
 
 inten_2015 %>% 
   mutate(no_colorado = siglas_lista != "ANR") %>% 
@@ -41,16 +43,30 @@ inten_2015 %>%
   arrange(desc(porcentaje_no_colorados))
 
 # El departamento con mayor porcentaje de intendentes no colorados es el
-#departamento 10 que es Alto Parana
+#departamento 17 que es Boquerón 
 
 
 inten_2015 %>% 
-  filter(dep == 10) %>% 
+  filter(dep %in% c(0,17)) %>% 
   select(dep, depdes) %>% 
   distinct()
 
 
 # Top 5 de los distritos en los que el ganador, gano por el mayor margen de victoria
+
+inten_2015 %>% 
+  arrange(desc(margen_de_victoria)) %>% 
+  select(dep, dis, nombre_completo, margen_de_victoria) %>% 
+  head(5)
+
+# Los 5 distritos donde el ganador obtuvo el mayor margen de victoria en 2015 fueron:
+# 1. Oscar Osmar Miranda Cáceres (margen: 0.856)
+# 2. Oscar Galeano Veloso (margen: 0.833)
+# 3. Moises Ulises Martinez Benitez (margen: 0.796)
+# 4. Edoard Schaffrath (margen: 0.730)
+# 5. Maria Victoria Salinas Sosa (margen: 0.708)
+
+
 # como se define margen de victoria: basicamente el % de votos del 1ro menos el % de votos
 
 
