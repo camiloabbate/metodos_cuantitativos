@@ -7,17 +7,19 @@ load("full_intendentes_margen_2001_2021.RData")
 intent_2010 <- full_intendentes_margen_2001_2021 %>% 
   filter(ano == 2010)
 
+
+# Fijarte que ahora mismo tu codigo esta analizando TODOS LOS AÑOS
+# Vos en realidad queres ver solo el año 2010:
+
+
+
+
 # que porcentaje de los intendentes son de sexo femenino
 # cual es la edad promedio de los intendentes
 # de los intendentes colorados, cual es el promedio de edad
 # cual es el departamento con mayor porcentaje de intendentes NO-COLORADOS
 
-rm(list = ls())
-library(tidyverse)
-
-load("full_intendentes_margen_2001_2021.RData")
-
-full_intendentes_margen_2001_2021 %>% 
+intent_2010 %>% 
   summarise(
     porcentaje_mujeres = mean(sexo == "F", na.rm = TRUE) * 100
   )
