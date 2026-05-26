@@ -92,6 +92,11 @@ departamento_mayor_porcentaje_no_colorados <-
 cat("\n4. Departamento con mayor porcentaje de intendentes no colorados:\n")
 departamento_mayor_porcentaje_no_colorados
 
+
+# AVERIGUAR, PORQUE EN BOQUERON SOLO APARECE 1 DISTRITO!
+
+
+
 # Sugerencias de preguntas adicionales para 2001:
 # - Cual fue el partido/lista con mayor cantidad de intendentes electos?
 # - Cual fue el departamento con mayor cantidad de intendentes electos por la ANR?
