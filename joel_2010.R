@@ -23,13 +23,14 @@ intent_2010 %>%
   summarise(
     porcentaje_mujeres = mean(sexo == "F", na.rm = TRUE) * 100
   )
+
 # Si quieres verlo ya redondeado:
   
-  full_intendentes_margen_2001_2021 %>% 
+  intent_2010 %>% 
   summarise(
     porcentaje_mujeres = round(mean(sexo == "F", na.rm = TRUE) * 100, 2)
   )
-  inte_2010 <- full_intendentes_margen_2001_2021 %>% 
+  inte_2010 <- intent_2010 %>% 
     filter(ano == 2010)
   
   inte_2010 %>% 
