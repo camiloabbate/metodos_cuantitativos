@@ -21,4 +21,7 @@ inte_2006 %>% filter(siglas_lista == "ANR") %>% summarise(edad_promedio_colorado
 
 inte_2006 %>% group_by(depdes) %>% summarise(porcentaje_no_colorados = sum(siglas_lista != "ANR", na.rm = TRUE)/ sum(!is.na(siglas_lista)) * 100) %>% arrange(desc(porcentaje_no_colorados))
 
+# COMO puede ser que asuncion tiene un porcentaje que NO es 0% o 100%?
+
+
 inte_2006 %>% group_by(depdes) %>% summarise(cant_mujeres = sum(sexo == "F", na.rm = TRUE)) %>% arrange(desc(cant_mujeres))
