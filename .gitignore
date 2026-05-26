@@ -5,3 +5,12 @@
 .positai
 desktop.ini
 Thumbs.db
+
+# Mac
+.DS_Store
+
+# Large data files (adjust extensions as needed)
+*.csv
+*.xlsx
+*.zip
+*.RData
