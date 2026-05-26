@@ -1,13 +1,18 @@
 
+
+
 rm(list = ls())
 
-load("C:/Users/usuario/Desktop/Carpeta Metodo Cuantitativo/Github_repo/full_intendentes_margen_2001_2021.RData")
+library(pacman)
 
+p_load(tidyverse,tidylog)
+
+
+load("full_intendentes_margen_2001_2021.RData")
 
 inten_2001 <- subset(
   full_intendentes_margen_2001_2021,
-  ano == 2001 & electo == 1
-)
+  ano == 2001 & electo == 1)
 
 cantidad_por_partido <- as.data.frame(
   sort(table(inten_2001$siglas_lista), decreasing = TRUE)
@@ -25,6 +30,9 @@ porcentaje_mujeres <- data.frame(
 
 cat("\n1. Porcentaje de intendentes mujeres:\n")
 porcentaje_mujeres
+
+inten_2001 %>% group_by(sexo) %>% count()
+
 
 # cual es la edad promedio de los intendentes
 edad_promedio <- data.frame(
