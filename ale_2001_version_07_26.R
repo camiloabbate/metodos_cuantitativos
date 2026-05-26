@@ -159,11 +159,7 @@ ranking_mayores_margenes <- inten_2001[
 ranking_mayores_margenes$porcentaje <-
   ranking_mayores_margenes$porcentaje * 100
 
-ranking_mayores_margenes$second_porcentaje <-
-  ranking_mayores_margenes$second_porcentaje * 100
 
-ranking_mayores_margenes$margen_de_victoria <-
-  ranking_mayores_margenes$margen_de_victoria * 100
 
 top_5_mayores_margenes <- head(ranking_mayores_margenes, 5)
 
