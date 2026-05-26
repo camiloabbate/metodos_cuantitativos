@@ -11,6 +11,4 @@ Thumbs.db
 
 # Large data files (adjust extensions as needed)
 *.csv
-*.xlsx
-*.zip
-*.RData
+
