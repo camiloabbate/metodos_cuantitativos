@@ -4,9 +4,8 @@ library(tidyverse)
 
 load("full_intendentes_margen_2001_2021.RData")
 
-inten_2015 <- full_intendentes_margen_2001_2021 %>% filter(ano == 2015) # FILTRAR SOLO
-# LOS GANADORES..
-# rehacer los analisis!
+inten_2015 <- full_intendentes_margen_2001_2021 %>% 
+  filter(ano == 2015, electo == 1)
 
 
 # que porcentaje de los intendentes son de sexo femenino
@@ -18,8 +17,7 @@ names(inten_2015)
 
 
 # que porcentaje de los intendentes son de sexo femenino
-inten_2015 %>% 
-  summarise(porcentaje_mujeres = mean(sexo == "F", na.rm = TRUE) * 100)
+inte_2015
 # El porcentaje de intendentes de sexo femenino en 2015 fue de 10.3%.
 
 
@@ -27,7 +25,7 @@ inten_2015 %>%
 
 inten_2015 %>% 
   summarise(promedio_edad = mean(edad, na.rm = TRUE))
-# La edad promedio de los intendentes en 2015 fue de 44.8 años.
+# La edad promedio de los intendentes en 2015 fue de 44.0 años.
 
 
 # de los intendentes colorados, cual es el promedio de edad
