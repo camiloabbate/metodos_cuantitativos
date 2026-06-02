@@ -5,7 +5,7 @@ library(tidyverse)
 load("full_intendentes_margen_2001_2021.RData")
 
 intent_2010 <- full_intendentes_margen_2001_2021 %>% 
-  filter(ano == 2010)
+  filter(ano == 2010, electo == 1)
 
 
 # Fijarte que ahora mismo tu codigo esta analizando TODOS LOS AÑOS
@@ -30,67 +30,29 @@ intent_2010 %>%
   summarise(
     porcentaje_mujeres = round(mean(sexo == "F", na.rm = TRUE) * 100, 2)
   )
-  inte_2010 <- intent_2010 %>% 
-    filter(ano == 2010)
+
   
-  inte_2010 %>% 
-    summarise(
-      porcentaje_mujeres = round(mean(sexo == "F", na.rm = TRUE) * 100, 2)
-    )
-  
-  full_intendentes_margen_2001_2021 %>% 
-    filter(ano == 2010) %>% 
+  intent_2010 %>% 
     summarise(edad_promedio = round(mean(edad, na.rm = TRUE), 2))
   
-  full_intendentes_margen_2001_2021 %>% 
-    filter(ano == 2010, partido == "ANR") %>% 
+  colnames(intent_2010)
+  
+  intent_2010 %>% filter(siglas_lista == "ANR") %>% 
     summarise(
       edad_promedio_colorados = round(mean(edad, na.rm = TRUE), 2)
     )
   
-  names(full_intendentes_margen_2001_2021)
-
-  unique(full_intendentes_margen_2001_2021)
-  
-  full_intendentes_margen_2001_2021 %>% 
-    filter(
-      ano == 2010,
-      PARTIDO %in% c("ANR", "Asociacion Nacional Republicana", "Colorado", "Partido Colorado")
-    ) %>% 
-    summarise(
-      edad_promedio_colorados = round(mean(edad, na.rm = TRUE), 2)
-    )
-  load("full_intendentes_margen_2001_2021.RData")  
-  
-  full_intendentes_margen_2001_2021 %>% 
-    filter(ano == 2010) %>% 
-    View()
-
-  intent_2010 <- full_intendentes_margen_2001_2021 %>% 
-    filter(ano == 2010)
-
   colorados_2010 <- intent_2010 %>% 
-    filter(nombre_lista == "PARTIDO COLORADO")  
+    filter(siglas_lista == "ANR")  
 
   colorados_2010 %>% 
     summarise(
       edad_promedio_colorados = round(mean(edad, na.rm = TRUE), 2)
     )  
   
-  full_intendentes_margen_2001_2021 %>% 
+  intent_2010 %>%
     mutate(
-      no_colorado = nombre_lista != "PARTIDO COLORADO"
-    ) %>% 
-    group_by(depdes) %>% 
-    summarise(
-      porcentaje_no_colorados = round(mean(no_colorado, na.rm = TRUE) * 100, 2)
-    ) %>% 
-    arrange(desc(porcentaje_no_colorados)) %>% 
-    slice(1)
-  
-  full_intendentes_margen_2001_2021 %>% 
-    mutate(
-      no_colorado = nombre_lista != "PARTIDO COLORADO"
+      no_colorado = ifelse(siglas_lista != "ANR",1,0)
     ) %>% 
     group_by(depdes) %>% 
     summarise(
@@ -98,48 +60,24 @@ intent_2010 %>%
     ) %>% 
     arrange(desc(porcentaje_no_colorados))
   
-
+  full_intendentes_margen_2001_2021$nombre_lista %>% unique()
+  
+  
   full_intendentes_margen_2001_2021 %>% 
-    filter(ano == 2010, str_to_upper(nombre_lista) == "BLANCO") %>% 
+    filter(ano == 2010, nombre_lista == "blancos") %>% 
     mutate(
       porcentaje_blanco = votos / total_de_votos_eleccion * 100
     ) %>% 
-    select(ano, depdes, disdes, votos, total_de_votos_eleccion, porcentaje)
+    select(ano, depdes, disdes, votos, total_de_votos_eleccion, porcentaje) %>% 
+    arrange(desc(porcentaje))
   
   full_intendentes_margen_2001_2021 %>% 
-    filter(ano == 2010, str_detect(str_to_upper(nombre_lista), "BLANCO"))
-  
-  blancos_2010 <- full_intendentes_margen_2001_2021 %>% 
-    filter(ano == 2010) %>% 
-    group_by(depdes, disdes) %>% 
-    summarise(
-      votos_blancos = sum(votos[str_detect(str_to_upper(nombre_lista), "BLANCO")], na.rm = TRUE),
-      total_votos_eleccion = first(total_de_votos_eleccion),
-      .groups = "drop"
-    )
-  
-  blancos_2010 %>% 
-    summarise(
-      total_votos_blancos = sum(votos_blancos, na.rm = TRUE),
-      total_votos_2010 = sum(total_votos_eleccion, na.rm = TRUE),
-      porcentaje_total_blancos = round(total_votos_blancos / total_votos_2010 * 100, 2)
-    )
-  
-  nulos_2010 <- full_intendentes_margen_2001_2021 %>% 
-    filter(ano == 2010) %>% 
-    group_by(depdes, disdes) %>% 
-    summarise(
-      votos_nulos = sum(votos[str_detect(str_to_upper(nombre_lista), "NULO")], na.rm = TRUE),
-      total_votos_eleccion = first(total_de_votos_eleccion),
-      .groups = "drop"
-    )
-  
-  nulos_2010 %>% 
-    summarise(
-      total_votos_nulos = sum(votos_nulos, na.rm = TRUE),
-      total_votos_2010 = sum(total_votos_eleccion, na.rm = TRUE),
-      porcentaje_total_nulos = round(total_votos_nulos / total_votos_2010 * 100, 2)
-    )
+    filter(ano == 2010, nombre_lista == "nulos") %>% 
+    mutate(
+      porcentaje_nulo = votos / total_de_votos_eleccion * 100
+    ) %>% 
+    select(ano, depdes, disdes, votos, total_de_votos_eleccion, porcentaje) %>% 
+    arrange(desc(porcentaje))
   
   
   #RESPUESTAS
